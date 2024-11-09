@@ -64,96 +64,68 @@ exports.getRecentPostsType = async (req, res) => {
     const { post_type } = req.params;
 
     try {
-        let posts = [];
+        let projectFields = {
+            _id: 1,
+            id_user: 1,
+            'basic_pet_information.name': 1,
+            'basic_pet_information.type': 1,
+            'basic_pet_information.photos': 1,
+            'publication_date': 1
+        };
 
-        if (post_type !== 'Encontrado') {
-            posts = await Post.aggregate([
-                { $match: { post_type: `${post_type}` } },
-                {
-                    $project: { 
-                        _id: 1, 
-                        'id_user': 1, 
-                        'basic_pet_information.name': 1, 
-                        'basic_pet_information.type': 1, 
-                        'basic_pet_information.photos': 1, 
-                        'loss_data.address.municipality': 1, 
-                        'loss_data.description': 1,
-                        'publication_date': 1
-                    }
-                },
-                { $sort: { publication_date: - 1 } }
-            ]);
+        if (post_type === 'Perdido') {
+            projectFields['loss_data.address.municipality'] = 1;
+            projectFields['loss_data.description'] = 1;
+        } else if (post_type === 'Adopción') {
+            projectFields['basic_pet_information.main_physical_characteristics'] = 1;
         } else {
-            posts = await Post.aggregate([
-                { $match: { post_type: `${post_type}` } },
-                {
-                    $project: { 
-                        _id: 1, 
-                        'id_user': 1, 
-                        'basic_pet_information.name': 1, 
-                        'basic_pet_information.type': 1, 
-                        'basic_pet_information.photos': 1, 
-                        'gratitude': 1,
-                        'publication_date': 1
-                    }
-                },
-                { $sort: { publication_date: - 1 } }
-            ]);
+            projectFields['gratitude'] = 1;
         }
 
-        res.status(200).json(posts);
+        const posts = await Post.aggregate([
+            { $match: { post_type } },
+            { $project: projectFields },
+            { $sort: { publication_date: -1 } }
+        ]);
 
+        res.status(200).json(posts);
     } catch (err) {
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Error del servidor' });
     }
-}
+};
 
 // Method to get old posts according to a post type
 exports.getOldPostsType = async (req, res) => {
     const { post_type } = req.params;
 
     try {
-        let posts = [];
+        let projectFields = {
+            _id: 1,
+            id_user: 1,
+            'basic_pet_information.name': 1,
+            'basic_pet_information.type': 1,
+            'basic_pet_information.photos': 1,
+            'publication_date': 1
+        };
 
-        if (post_type !== 'Encontrado') {
-            posts = await Post.aggregate([
-                { $match: { post_type: `${post_type}` } },
-                {
-                    $project: { 
-                        _id: 1, 
-                        'id_user': 1, 
-                        'basic_pet_information.name': 1, 
-                        'basic_pet_information.type': 1, 
-                        'basic_pet_information.photos': 1, 
-                        'loss_data.address.municipality': 1, 
-                        'loss_data.description': 1,
-                        'publication_date': 1
-                    }
-                },
-                { $sort: { publication_date: 1 } }
-            ]);
+        if (post_type === 'Perdido') {
+            projectFields['loss_data.address.municipality'] = 1;
+            projectFields['loss_data.description'] = 1;
+        } else if (post_type === 'Adopción') {
+            projectFields['basic_pet_information.main_physical_characteristics'] = 1;
         } else {
-            posts = await Post.aggregate([
-                { $match: { post_type: `${post_type}` } },
-                {
-                    $project: { 
-                        _id: 1, 
-                        'id_user': 1, 
-                        'basic_pet_information.name': 1, 
-                        'basic_pet_information.type': 1, 
-                        'basic_pet_information.photos': 1, 
-                        'gratitude': 1,
-                        'publication_date': 1
-                    }
-                },
-                { $sort: { publication_date: 1 } }
-            ]);
+            projectFields['gratitude'] = 1;
         }
 
-        res.status(200).json(posts);
+        const posts = await Post.aggregate([
+            { $match: { post_type } },
+            { $project: projectFields },
+            { $sort: { publication_date: 1 } }
+        ]);
 
+        res.status(200).json(posts);
     } catch (err) {
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Error del servidor' });
     }
 }
 
@@ -173,3 +145,19 @@ exports.getPostByIdUser = async (req, res) => {
     }
 }
 
+exports.searchPosts = async (req, res) => {
+    const { searchParam } = req.body;
+
+    try{
+        let results = [];
+
+        if(!searchParam)
+            res.status(404).json({message: "Missing fields"});
+
+        results = await Post.find({"loss_data.description" : new RegExp(searchParam, 'i')});
+
+        res.status(200).json(results);
+    }catch(err){
+        res.status(500).json({ message: 'Server error' });
+    }
+}

@@ -15,10 +15,10 @@ router.get('/getAllRecentPosts', getRecentPosts);
 router.get('/getAllOldPosts', getOldPosts);
 
 // Route to get all recent post of a type
-router.get('/getRecentPostsType/:post_type', getRecentPostsType);
+router.post('/getRecentPostsType/:post_type', getRecentPostsType);
 
 // Route to get all old post of a type
-router.get('/getOldPostsType/:post_type', getOldPostsType);
+router.post('/getOldPostsType/:post_type', getOldPostsType);
 
 // Route to get the posts of a user
 router.post('/getPostsUser/:id_user', getPostByIdUser);
