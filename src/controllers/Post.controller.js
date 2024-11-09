@@ -156,3 +156,19 @@ exports.getOldPostsType = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
+
+exports.getPostByIdUser = async (req, res) => {
+    const { id_user } = req.params;
+
+    try {
+        const userId = parseInt(id_user);
+        const results = await Post.aggregate([
+            { $match : { id_user: userId } }
+        ]);
+
+        res.status(200).json(results);
+    } catch(err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
