@@ -163,7 +163,8 @@ exports.getPostByIdUser = async (req, res) => {
     try {
         const userId = parseInt(id_user);
         const results = await Post.aggregate([
-            { $match : { id_user: userId } }
+            { $match : { id_user: userId } },
+            { $sort: { publication_date: - 1 } }
         ]);
 
         res.status(200).json(results);
