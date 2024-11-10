@@ -5,11 +5,12 @@ const localServiceSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    type: { type: String, enum: ['Local', 'Servicio'] },
     photos: {
         type: [String],
         required: true
     },
-    name: {
+    "name": {
         type: String,
         required: true
     },
