@@ -1,74 +1,130 @@
 const mongoose = require('mongoose');
 
-const localServiceSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
     id_user: {
         type: Number,
         required: true
     },
-    photos: {
-        type: [String],
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    address: {
+    post_type: { type: String, enum: ['Adopción', 'Perdido', 'Encontrado'] },
+    basic_pet_information: {
         type: {
-            zip_code: {
-                type: Number,
+            type_pet: {
+                type: String, enum: ['Dog', 'Cat', 'Bird'],
                 required: true
             },
-            state: {
+            name: {
                 type: String,
                 required: true
             },
-            municipality: {
+            race: {
                 type: String,
-                required: true
-            },
-            cologne: {
-                type: String,
-                required: true
-            },
-            outside_number: {
-                type: Number,
                 required: false
             },
-            street: {
+            age: {
                 type: String,
                 required: true
+            },
+            sex: {
+                type: String, enum: ['Macho', 'Hembra'],
+                required: true
+            },
+            main_physical_characteristics: {
+                type: [String],
+                required: true
+            },
+            photos: {
+                type: [String],
+                required: true
+            }
+        },
+        required: true
+    },
+    loss_data: {
+        type: {
+            address: {
+                zip_code: {
+                    type: Number,
+                    required: true
+                },
+                state: {
+                    type: String,
+                    required: true
+                },
+                municipality: {
+                    type: String,
+                    required: true
+                },
+                cologne: {
+                    type: String,
+                    required: true
+                },
+                outside_number: {
+                    type: Number,
+                    required: false
+                },
+                street: {
+                    type: String,
+                    required: true
+                }
+            },
+            loss_date: {
+                type: Date,
+                required: true
+            },
+            description: {
+                type: String,
+                required: true
+            },
+            last_seen: {
+                type: String,
+                required: false
             }
         },
         required: false
     },
-    phone_number: {
-        type: String,
-        required: true
+    reward: {
+        type: Number,
+        required: false
     },
-    opening_hours: {
-        type: [{
-            day_care: {
-                type: String,
+    gratitude: {
+        type: String,
+        required: false
+    },
+    medical_data: {
+        type: {
+            has_vaccines: {
+                type: Boolean,
                 required: true
             },
-            start_time: {
+            primer: {
                 type: String,
+                required: false
+            },
+            has_physical_problems: {
+                type: Boolean,
                 required: true
             },
-            end_time: {
-                type: String,
+            physical_problems: {
+                type: [String],
+                required: false
+            },
+            has_operations: {
+                type: Boolean,
                 required: true
+            },
+            operations: {
+                type: [String],
+                required: false
             }
-        }],
+        },
+        required: false
+    },
+    publication_date: {
+        type: Date,
         required: true
     }
 });
 
-const LocalService = mongoose.model('LocalService', localServiceSchema);
+const Post = mongoose.model('Post', postSchema);
 
-module.exports = LocalService;
+module.exports = Post;
