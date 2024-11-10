@@ -4,9 +4,15 @@ const LocalService = require('../models/LocalService.model');
 exports.registerLocalService = async (req, res) => {
     const { id_user, type, photos, name, description, address, phone_number, opening_hours } = req.body;
 
+    console.log(req.body)
     try {
-        let local_service_create = new LocalService({ id_user, type, photos, name, description, address, phone_number, opening_hours });
-
+        let local_service_create;
+        if(type === 'Local'){
+            local_service_create = new LocalService({ id_user, type, photos, name, description, address, phone_number, opening_hours });
+        } else {
+            local_service_create = new LocalService({ id_user, type, photos, name, description, phone_number, opening_hours });
+        }
+        
         await local_service_create.save();
         
         res.status(201).json({ message: 'Local successfully registered' });
@@ -26,4 +32,41 @@ exports.getInformationLocalService = async (req, res) => {
         res.status(500).json({ message: 'Server error'});
     }
 
+}
+
+// Method for obtaining information on each of the premises and services
+exports.getInformationAllLocalsAndServices = async (req, res) => {
+
+    try {
+        const locals_services = await LocalService.aggregate([
+            { $project : 
+                { 
+                    _id : 1,
+                    id_user: 1, 
+                    type : 1, 
+                    photos : 1, 
+                    name : 1, 
+                    description: 1
+                } 
+            }
+        ]);
+
+        res.status(200).json(locals_services);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Server error'});
+    }
+}
+
+
+exports.deleteLocalOrService = async (req, res) => {
+    const { id_local_service } = req.params;
+
+    try {
+        await LocalService.deleteOne({ id_user: id_local_service });
+
+        res.status(200).json({message: 'Deleted local or service'});
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
 }

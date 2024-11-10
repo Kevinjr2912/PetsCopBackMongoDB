@@ -189,7 +189,7 @@ exports.updateLostPetPostUpdateFound = async (req, res) => {
 
 }
 
-// Pe   nding method
+// Pending method
 exports.updateInformationPost = async (req, res) => {
 
 }
@@ -200,7 +200,7 @@ exports.deletePostOfAUser = async (req, res) => {
     try {
         await Post.findByIdAndDelete(_id);
 
-        res.status(200).json({message: 'Deleted post'})
+        res.status(200).json({message: 'Deleted post'});
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
