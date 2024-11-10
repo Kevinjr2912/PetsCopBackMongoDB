@@ -93,7 +93,7 @@ exports.getRecentPostsType = async (req, res) => {
 
         res.status(200).json(posts);
     } catch (err) {
-        res.status(500).json({ message: 'Error del servidor' });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -128,7 +128,7 @@ exports.getOldPostsType = async (req, res) => {
 
         res.status(200).json(posts);
     } catch (err) {
-        res.status(500).json({ message: 'Error del servidor' });
+        res.status(500).json({ message: 'Server error' });
     }
 }
 
