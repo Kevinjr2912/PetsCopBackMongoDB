@@ -132,6 +132,7 @@ exports.getOldPostsType = async (req, res) => {
     }
 }
 
+// Method to get the posts of a user
 exports.getPostByIdUser = async (req, res) => {
     const { id_user } = req.params;
 
@@ -148,6 +149,7 @@ exports.getPostByIdUser = async (req, res) => {
     }
 }
 
+// Method to search post by pet name
 exports.searchPosts = async (req, res) => {
     const { search_post } = req.body;
 
@@ -161,6 +163,7 @@ exports.searchPosts = async (req, res) => {
     }
 }
 
+// Method to update the status and body of a post from a lost to found pet
 exports.updateLostPetPostUpdateFound = async (req, res) => {
     const { id_post : filter } = req.params;
     const { gratitude } = req.body;
@@ -186,6 +189,11 @@ exports.updateLostPetPostUpdateFound = async (req, res) => {
 
 }
 
+// Pe   nding method
+exports.updateInformationPost = async (req, res) => {
+
+}
+
 exports.deletePostOfAUser = async (req, res) => {
     const { id_post: _id } = req.params;
 
@@ -197,3 +205,4 @@ exports.deletePostOfAUser = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
+
