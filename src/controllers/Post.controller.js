@@ -25,6 +25,8 @@ exports.createPostForLostPet = async (req, res) => {
 exports.createPostForPetAdoption = async (req, res) => {
     const { id_user, post_type, basic_pet_information, medical_data, publication_date } = req.body;
 
+    console.log(req.body)
+
     try {
         let pet_adotion = new Post({ id_user, post_type, basic_pet_information, medical_data, publication_date });
 
@@ -32,6 +34,7 @@ exports.createPostForPetAdoption = async (req, res) => {
 
         res.status(201).json({ message: "Post created from a pet for adoption" });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: 'Server error' });
     }
 }
@@ -146,15 +149,11 @@ exports.getPostByIdUser = async (req, res) => {
 }
 
 exports.searchPosts = async (req, res) => {
-    const { searchParam } = req.body;
+    const { search_post } = req.body;
 
     try{
-        let results = [];
-
-        if(!searchParam)
-            res.status(404).json({message: "Missing fields"});
-
-        results = await Post.find({"loss_data.description" : new RegExp(searchParam, 'i')});
+ 
+        const results = await Post.find({ 'basic_pet_information.name': { $regex: search_post, $options: 'i' } })                                                                                                                        
 
         res.status(200).json(results);
     }catch(err){
