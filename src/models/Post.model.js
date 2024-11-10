@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    post_type: { type: String, enum: ['Adopción', 'Perdido', 'Encontrada'] },
+    post_type: { type: String, enum: ['Adopción', 'Perdido', 'Encontrado'] },
     basic_pet_information: {
         type: {
             type_pet: {

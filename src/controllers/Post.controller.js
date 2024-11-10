@@ -160,3 +160,28 @@ exports.searchPosts = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
+
+exports.updateLostPetPostUpdateFound = async (req, res) => {
+    const { id_post : filter } = req.params;
+    const { gratitude } = req.body;
+
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(filter,
+            {
+                $set: {
+                    post_type: 'Encontrado',
+                    gratitude: gratitude
+                },
+                $unset: {
+                    loss_data: ""
+                }
+            },
+            { new: true }
+        );
+
+        res.status(200).json({ message: "Updated recipe", updatedPost})
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+
+}
