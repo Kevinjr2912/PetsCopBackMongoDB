@@ -4,7 +4,6 @@ const LocalService = require('../models/LocalService.model');
 exports.registerLocalService = async (req, res) => {
     const { id_user, type, photos, name, description, address, phone_number, opening_hours } = req.body;
 
-    console.log(req.body)
     try {
         let local_service_create;
         if(type === 'Local'){
@@ -58,7 +57,24 @@ exports.getInformationAllLocalsAndServices = async (req, res) => {
     }
 }
 
+exports.updateInformationLocalOrService = async (req, res) => {
+    const { id_local_service } = req.params;
+    const data_local_service = req.body;
+    try {
+        await LocalService.findOneAndUpdate(
+            { _id: id_local_service },
+            { $set: data_local_service },
+            { new: true }
+        );
 
+        res.status(200).json({ message: 'Deleted post', data_local_service})
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+// Method to delete a local o service
 exports.deleteLocalOrService = async (req, res) => {
     const { id_local_service } = req.params;
 
