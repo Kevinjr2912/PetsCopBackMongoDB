@@ -1,4 +1,5 @@
 const Post = require('../models/Post.model');
+const { ObjectId } = require('mongodb')
 
 // Method for creating a post for a lost pet
 exports.createPostForLostPet = async (req, res) => {
@@ -139,12 +140,12 @@ exports.getPostByIdUser = async (req, res) => {
     try {
         const userId = parseInt(id_user);
         const results = await Post.aggregate([
-            { $match : { id_user: userId } },
+            { $match: { id_user: userId } },
             { $sort: { publication_date: - 1 } }
         ]);
 
         res.status(200).json(results);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
 }
@@ -153,19 +154,19 @@ exports.getPostByIdUser = async (req, res) => {
 exports.searchPosts = async (req, res) => {
     const { search_post } = req.body;
 
-    try{
- 
-        const results = await Post.find({ 'basic_pet_information.name': { $regex: search_post, $options: 'i' } })                                                                                                                        
+    try {
+
+        const results = await Post.find({ 'basic_pet_information.name': { $regex: search_post, $options: 'i' } })
 
         res.status(200).json(results);
-    }catch(err){
+    } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
 }
 
 // Method to update the status and body of a post from a lost to found pet
 exports.updateLostPetPostUpdateFound = async (req, res) => {
-    const { id_post : filter } = req.params;
+    const { id_post: filter } = req.params;
     const { gratitude } = req.body;
 
     try {
@@ -182,25 +183,40 @@ exports.updateLostPetPostUpdateFound = async (req, res) => {
             { new: true }
         );
 
-        res.status(200).json({ message: "Updated recipe", updatedPost})
+        res.status(200).json({ message: "Updated recipe", updatedPost })
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
 
 }
 
-// Pending method
+// Method to update the information of a post
 exports.updateInformationPost = async (req, res) => {
+    const { id_post } = req.params;
+    const update_object = req.body;
+
+    try {
+        const updatedPost = await Post.findOneAndUpdate(
+            { _id: id_post },      
+            { $set: update_object },
+            { new: true }         
+        );
+
+        res.json(updatedPost);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
 
 }
 
+// Method to delete a post
 exports.deletePostOfAUser = async (req, res) => {
     const { id_post: _id } = req.params;
 
     try {
         await Post.findByIdAndDelete(_id);
 
-        res.status(200).json({message: 'Deleted post'});
+        res.status(200).json({ message: 'Deleted post' })
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
