@@ -119,6 +119,33 @@ const postSchema = new mongoose.Schema({
         },
         required: false
     },
+    comments: {
+        type:[{
+            id_user: {
+                type: Number,
+                ref: 'User',
+                required: true
+            },
+            response: {
+                type: String,
+                required: true
+            },
+            replies: [
+                {
+                    id_user: {
+                        type: Number,
+                        required: true
+                    },
+                    response: {
+                        type: String,
+                        required: true
+                    }
+                }
+            ]
+        }],
+        required: false
+    }
+    ,
     publication_date: {
         type: Date,
         required: true
