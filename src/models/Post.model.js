@@ -39,6 +39,57 @@ const postSchema = new mongoose.Schema({
         },
         required: true
     },
+    loss_data: {
+        type: {
+            address: {
+                zip_code: {
+                    type: Number,
+                    required: true
+                },
+                state: {
+                    type: String,
+                    required: true
+                },
+                municipality: {
+                    type: String,
+                    required: true
+                },
+                cologne: {
+                    type: String,
+                    required: true
+                },
+                outside_number: {
+                    type: Number,
+                    required: false
+                },
+                street: {
+                    type: String,
+                    required: true
+                }
+            },
+            loss_date: {
+                type: Date,
+                required: true
+            },
+            description: {
+                type: String,
+                required: true
+            },
+            last_seen: {
+                type: String,
+                required: false
+            }
+        },
+        required: false
+    },
+    reward: {
+        type: Number,
+        required: false
+    },
+    gratitude: {
+        type: String,
+        required: false
+    },
     medical_data: {
         type: {
             has_vaccines: {

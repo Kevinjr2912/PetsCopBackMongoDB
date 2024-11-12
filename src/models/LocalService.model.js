@@ -10,7 +10,7 @@ const localServiceSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    "name": {
+    name: {
         type: String,
         required: true
     },
