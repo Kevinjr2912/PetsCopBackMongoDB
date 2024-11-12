@@ -26,8 +26,6 @@ exports.createPostForLostPet = async (req, res) => {
 exports.createPostForPetAdoption = async (req, res) => {
     const { id_user, post_type, basic_pet_information, medical_data, publication_date } = req.body;
 
-    console.log(req.body)
-
     try {
         let pet_adotion = new Post({ id_user, post_type, basic_pet_information, medical_data, publication_date });
 
@@ -35,7 +33,6 @@ exports.createPostForPetAdoption = async (req, res) => {
 
         res.status(201).json({ message: "Post created from a pet for adoption" });
     } catch (err) {
-        console.log(err)
         res.status(500).json({ message: 'Server error' });
     }
 }
