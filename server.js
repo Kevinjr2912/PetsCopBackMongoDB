@@ -13,11 +13,13 @@ app.use(cors());
 const postRoute = require('./src/routes/Post.route');
 const localServiceRoute = require('./src/routes/LocalService.routes');
 const commentRoute = require('./src/routes/Comment.route');
+const commentToLocalService = require('./src/routes/CommentToLocalService.route');
 
 // Resources
 app.use('/posts', postRoute);
-app.use('/locals_services', localServiceRoute)
-app.use('/comments', commentRoute)
+app.use('/locals_services', localServiceRoute);
+app.use('/comments', commentRoute);
+app.use('/commentsToLocalService', commentToLocalService);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
