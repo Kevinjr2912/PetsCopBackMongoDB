@@ -1,5 +1,4 @@
 const Post = require('../models/Post.model');
-const { ObjectId } = require('mongodb')
 
 // Method for creating a post for a lost pet
 exports.createPostForLostPet = async (req, res) => {
