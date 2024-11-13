@@ -5,7 +5,7 @@ const localServiceSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    type: { type: String, enum: ['Local', 'Servicio'] },
+    type: { type: String, enum: ['Local', 'Service'] },
     photos: {
         type: [String],
         required: true
@@ -67,6 +67,32 @@ const localServiceSchema = new mongoose.Schema({
             }
         }],
         required: true
+    },
+    comments: {
+        type: [{
+            id_user: {
+                type: Number,
+                ref: 'User',
+                required: true
+            },
+            response: {
+                type: String,
+                required: true
+            },
+            replies: [
+                {
+                    id_user: {
+                        type: Number,
+                        required: true
+                    },
+                    response: {
+                        type: String,
+                        required: true
+                    }
+                }
+            ]
+        }],
+        required: false
     }
 });
 

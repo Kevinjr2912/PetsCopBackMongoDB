@@ -69,7 +69,6 @@ exports.updateInformationLocalOrService = async (req, res) => {
 
         res.status(200).json({ message: 'Deleted post', data_local_service})
     } catch (err) {
-        console.log(err)
         res.status(500).json({ message: 'Server error' });
     }
 }
