@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    post_type: { type: String, enum: ['Adopción', 'Perdido', 'Encontrado'] },
+    post_type: { type: String, enum: ['Adoption', 'Lost', 'Found'] },
     basic_pet_information: {
         type: {
             type_pet: {
@@ -25,7 +25,7 @@ const postSchema = new mongoose.Schema({
                 required: true
             },
             sex: {
-                type: String, enum: ['Macho', 'Hembra'],
+                type: String, enum: ['Male', 'Female'],
                 required: true
             },
             main_physical_characteristics: {
@@ -120,7 +120,7 @@ const postSchema = new mongoose.Schema({
         required: false
     },
     comments: {
-        type:[{
+        type: [{
             id_user: {
                 type: Number,
                 ref: 'User',

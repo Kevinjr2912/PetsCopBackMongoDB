@@ -11,11 +11,13 @@ app.use(express.json());
 app.use(cors());
 
 const postRoute = require('./src/routes/Post.route');
-const localService = require('./src/routes/LocalService.routes');
+const localServiceRoute = require('./src/routes/LocalService.routes');
+const commentRoute = require('./src/routes/Comment.route');
 
 // Resources
 app.use('/posts', postRoute);
-app.use('/locals_services', localService)
+app.use('/locals_services', localServiceRoute)
+app.use('/comments', commentRoute)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
