@@ -1,4 +1,5 @@
 const LocalService = require('../models/LocalService.model');
+const authenticateJWT = require('../middleWare/authenticateJWT');
 
 // Method for registering a premises or services
 exports.registerLocalService = async (req, res) => {

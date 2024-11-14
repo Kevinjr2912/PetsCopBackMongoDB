@@ -1,4 +1,5 @@
 const Post = require('../models/Post.model');
+const authenticateJWT = require('../middleWare/authenticateJWT');
 
 // Method to create a comment to a post
 exports.createCommentToPost = async (req, res) => {

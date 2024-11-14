@@ -1,4 +1,5 @@
 const Post = require('../models/Post.model');
+const authenticateJWT = require('../middleWare/authenticateJWT');
 
 // Method for creating a post for a lost pet
 exports.createPostForLostPet = async (req, res) => {
@@ -37,7 +38,7 @@ exports.createPostForPetAdoption = async (req, res) => {
 }
 
 // Method to get the most recent post types
-exports.getRecentPosts = async (req, res) => {
+exports.getRecentPosts = [authenticateJWT ,async (req, res) => {
     try {
         const posts = await Post.aggregate([{ $sort: { publication_date: - 1 } }])
 
@@ -45,7 +46,7 @@ exports.getRecentPosts = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method to get oldest post types
 exports.getOldPosts = async (req, res) => {

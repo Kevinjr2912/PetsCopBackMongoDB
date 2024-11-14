@@ -1,4 +1,5 @@
 const LocalService = require('../models/LocalService.model');
+const authenticateJWT = require('../middleWare/authenticateJWT');
 
 // Method to create a comment to a local or service
 exports.createCommentToLocalOrService = async (req, res) => {
