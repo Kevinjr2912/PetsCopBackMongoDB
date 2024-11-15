@@ -5,10 +5,13 @@ const localServiceSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    type: { type: String, enum: ['Local', 'Service'] },
+    photo_profile: {
+        type: String,
+        required: true
+    },
     photos: {
         type: [String],
-        required: true
+        required: false
     },
     name: {
         type: String,
@@ -49,7 +52,7 @@ const localServiceSchema = new mongoose.Schema({
     },
     phone_number: {
         type: String,
-        required: true
+        required: false
     },
     opening_hours: {
         type: [{
@@ -66,7 +69,7 @@ const localServiceSchema = new mongoose.Schema({
                 required: true
             }
         }],
-        required: true
+        required: false
     },
     comments: {
         type: [{

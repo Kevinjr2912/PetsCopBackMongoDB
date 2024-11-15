@@ -2,14 +2,15 @@ const LocalService = require('../models/LocalService.model');
 
 // Method for registering a premises or services
 exports.registerLocalService = async (req, res) => {
-    const { id_user, type, photos, name, description, address, phone_number, opening_hours } = req.body;
+    const { id_user, type, photo_profile, name, description } = req.body;
+    console.log(req.body);
 
     try {
         let local_service_create;
         if(type === 'Local'){
-            local_service_create = new LocalService({ id_user, type, photos, name, description, address, phone_number, opening_hours });
+            local_service_create = new LocalService({ id_user, photo_profile, name, description });
         } else {
-            local_service_create = new LocalService({ id_user, type, photos, name, description, phone_number, opening_hours });
+            local_service_create = new LocalService({ id_user, photo_profile, name, description });
         }
         
         await local_service_create.save();

@@ -21,6 +21,7 @@ app.use('/locals_services', localServiceRoute);
 app.use('/comments', commentRoute);
 app.use('/commentsToLocalService', commentToLocalService);
 
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
