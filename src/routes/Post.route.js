@@ -3,7 +3,7 @@ const router = express.Router();
 const { createPostForLostPet, createPostForPetAdoption, getRecentPosts, getOldPosts, getRecentPostsType, getOldPostsType, getPostByIdUser, searchPosts, updateLostPetPostUpdateFound, deletePostOfAUser, updateInformationPost } = require('../controllers/Post.controller');
 
 // Route to create a post for a lost pet
-router.post('/createPostLosePet', createPostForLostPet);
+router.post('/createPostLostPet', createPostForLostPet);
 
 // Route to create a post of a pet for a adoption
 router.post('/createPostPetAdoption', createPostForPetAdoption);

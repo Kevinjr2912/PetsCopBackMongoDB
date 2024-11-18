@@ -13,7 +13,7 @@ exports.getInformationAddress = async (req, res) => {
         const data = await response.json();
 
         if (!data.error) {
-            return res.json(data);
+            return res.json(data.codigo_postal.colonias);
         }
 
         return res.json({ error: "No se encontró dicho código postal" });

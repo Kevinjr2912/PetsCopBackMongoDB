@@ -4,42 +4,41 @@ const fs = require('fs');
 const stream = require('stream');
 const driveService = require('../../configDrive');
 
-// Subir archivo a Google Drive
+// Subir múltiples archivos a Google Drive
 exports.uploadToDrive = async (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No se proporcionó un archivo' });
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ error: 'No se proporcionaron archivos' });
     }
 
-    const tempDir = os.tmpdir();
-    const filePath = path.join(tempDir, req.file.originalname);
+    const uploadedFiles = [];
 
     try {
-        fs.writeFileSync(filePath, req.file.buffer);
+        for (let i = 0; i < req.files.length; i++) {
+            const file = req.files[i];
+            const fileMetadata = { name: file.originalname };
 
-        const fileMetadata = { name: req.file.originalname };
+            const media = {
+                mimeType: file.mimetype,
+                body: stream.Readable.from(file.buffer),
+            };
 
-        const media = {
-            mimeType: req.file.mimetype,
-            body: fs.createReadStream(filePath),
-        };
+            const uploadedFile = await driveService.files.create({
+                resource: fileMetadata,
+                media: media,
+                fields: 'id',
+            });
 
-        const uploadedFile = await driveService.files.create({
-            resource: fileMetadata,
-            media: media,
-            fields: 'id',
-        });
+            uploadedFiles.push(uploadedFile.data.id);
+        }
 
-        const fileId = uploadedFile.data.id;
- 
-        fs.unlinkSync(filePath);
-
-        res.status(200).json({ fileId });
+        res.status(200).json(uploadedFiles);
     } catch (error) {
-        res.status(500).json({ error: 'Error al subir el archivo' });
+        console.log(error)
+        res.status(500).json({ error: 'Error al subir los archivos' });
     }
 };
 
-// Descargar archivo de Google Drive
+// Ruta para descargar archivo desde Google Drive
 exports.downloadFromDrive = async (req, res) => {
     const { fileId } = req.params;
 

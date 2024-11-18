@@ -9,7 +9,7 @@ const postSchema = new mongoose.Schema({
     basic_pet_information: {
         type: {
             type_pet: {
-                type: String, enum: ['Dog', 'Cat', 'Bird'],
+                type: String, enum: ['Dog', 'Cat'],
                 required: true
             },
             name: {
@@ -22,10 +22,6 @@ const postSchema = new mongoose.Schema({
             },
             age: {
                 type: String,
-                required: true
-            },
-            sex: {
-                type: String, enum: ['Male', 'Female'],
                 required: true
             },
             main_physical_characteristics: {
@@ -54,15 +50,7 @@ const postSchema = new mongoose.Schema({
                     type: String,
                     required: true
                 },
-                cologne: {
-                    type: String,
-                    required: true
-                },
-                outside_number: {
-                    type: Number,
-                    required: false
-                },
-                street: {
+                colony: {
                     type: String,
                     required: true
                 }
@@ -93,7 +81,7 @@ const postSchema = new mongoose.Schema({
     medical_data: {
         type: {
             has_vaccines: {
-                type: Boolean,
+                type: String,
                 required: true
             },
             primer: {
@@ -101,7 +89,7 @@ const postSchema = new mongoose.Schema({
                 required: false
             },
             has_physical_problems: {
-                type: Boolean,
+                type: String,
                 required: true
             },
             physical_problems: {
@@ -109,11 +97,11 @@ const postSchema = new mongoose.Schema({
                 required: false
             },
             has_operations: {
-                type: Boolean,
+                type: String,
                 required: true
             },
             operations: {
-                type: [String],
+                type: String,
                 required: false
             }
         },

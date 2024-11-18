@@ -4,6 +4,8 @@ const Post = require('../models/Post.model');
 exports.createPostForLostPet = async (req, res) => {
     const { id_user, post_type, basic_pet_information, loss_data, reward, publication_date } = req.body;
 
+    console.log("Fotos ", basic_pet_information.photos)
+
     try {
         let lost_pet_post = '';
 
@@ -17,6 +19,7 @@ exports.createPostForLostPet = async (req, res) => {
 
         res.status(201).json({ message: "Post created from a lost pet" });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: 'Server error' });
     }
 }
@@ -32,6 +35,7 @@ exports.createPostForPetAdoption = async (req, res) => {
 
         res.status(201).json({ message: "Post created from a pet for adoption" });
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: 'Server error' });
     }
 }
