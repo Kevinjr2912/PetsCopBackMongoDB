@@ -43,7 +43,20 @@ exports.createPostForPetAdoption = async (req, res) => {
 // Method to get the most recent post types
 exports.getRecentPosts = async (req, res) => {
     try {
-        const posts = await Post.aggregate([{ $sort: { publication_date: - 1 } }])
+        let projectFields = {
+            _id: 1,
+            id_user: 1,
+            'basic_pet_information.name': 1,
+            'basic_pet_information.type': 1,
+            'basic_pet_information.photos': 1,
+            'loss_data.address.colony': 1,
+            'publication_date': 1
+        }
+
+        const posts = await Post.aggregate([
+            { $project: projectFields },
+            { $sort: { publication_date: - 1 } }
+        ])
 
         res.status(200).json(posts);
     } catch (err) {
@@ -54,7 +67,20 @@ exports.getRecentPosts = async (req, res) => {
 // Method to get oldest post types
 exports.getOldPosts = async (req, res) => {
     try {
-        const posts = await Post.aggregate([{ $sort: { publication_date: 1 } }]);
+        let projectFields = {
+            _id: 1,
+            id_user: 1,
+            'basic_pet_information.name': 1,
+            'basic_pet_information.type': 1,
+            'basic_pet_information.photos': 1,
+            'loss_data.address.colony': 1,
+            'publication_date': 1
+        }
+
+        const posts = await Post.aggregate([
+            { $project: projectFields },
+            { $sort: { publication_date: 1 } }
+        ]);
 
         res.status(200).json(posts);
 
@@ -197,9 +223,9 @@ exports.updateInformationPost = async (req, res) => {
 
     try {
         const updatedPost = await Post.findOneAndUpdate(
-            { _id: id_post },      
+            { _id: id_post },
             { $set: update_object },
-            { new: true }         
+            { new: true }
         );
 
         res.json(updatedPost);
