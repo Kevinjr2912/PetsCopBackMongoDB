@@ -71,16 +71,10 @@ exports.getOldPosts = async (req, res) => {
         let projectFields = {
             _id: 1,
             id_user: 1,
-            post_type: 1,
-            // Basic Data
             'basic_pet_information.name': 1,
             'basic_pet_information.type': 1,
             'basic_pet_information.photos': 1,
-            'basic_pet_information.main_physical_characteristics': 1,
-
-            // Loss Data
-            'loss_data.description': 1,
-
+            'loss_data.address.colony': 1,
             'publication_date': 1
         }
 
