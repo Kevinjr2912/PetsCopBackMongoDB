@@ -111,7 +111,6 @@ const postSchema = new mongoose.Schema({
         type: [{
             id_user: {
                 type: Number,
-                ref: 'User',
                 required: true
             },
             response: {

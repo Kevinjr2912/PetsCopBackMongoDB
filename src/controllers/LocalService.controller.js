@@ -31,8 +31,29 @@ exports.getInformationLocalService = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error'});
     }
-
 }
+
+exports.getNameAndPhotoLocalService = async (req, res) => {
+    const { id_user } = req.params;
+
+    try {
+        const local_service = await LocalService.findOne(
+            { id_user: id_user }
+        );
+
+        const nameAndPhoto = {
+            'name': local_service.name,
+            'photo_profile': local_service.photo_profile
+        }
+
+        res.status(200).json(nameAndPhoto);
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: 'Server error'});
+    }
+}
+
 
 // Method for obtaining information on each of the premises and services
 exports.getInformationAllLocalsAndServices = async (req, res) => {
@@ -57,6 +78,7 @@ exports.getInformationAllLocalsAndServices = async (req, res) => {
         res.status(500).json({ message: 'Server error'});
     }
 }
+
 
 exports.updateInformationLocalOrService = async (req, res) => {
     const { id_local_service } = req.params;

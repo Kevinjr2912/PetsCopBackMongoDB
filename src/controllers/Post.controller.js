@@ -46,10 +46,11 @@ exports.getRecentPosts = async (req, res) => {
         let projectFields = {
             _id: 1,
             id_user: 1,
-            'basic_pet_information.name': 1,
-            'basic_pet_information.type': 1,
-            'basic_pet_information.photos': 1,
-            'loss_data.address.colony': 1,
+            post_type: 1,
+            basic_pet_information: 1,
+            loss_data: 1,
+            reward: 1,
+            gratitude: 1,
             'publication_date': 1
         }
 
@@ -70,10 +71,16 @@ exports.getOldPosts = async (req, res) => {
         let projectFields = {
             _id: 1,
             id_user: 1,
+            post_type: 1,
+            // Basic Data
             'basic_pet_information.name': 1,
             'basic_pet_information.type': 1,
             'basic_pet_information.photos': 1,
-            'loss_data.address.colony': 1,
+            'basic_pet_information.main_physical_characteristics': 1,
+
+            // Loss Data
+            'loss_data.description': 1,
+
             'publication_date': 1
         }
 
@@ -159,6 +166,20 @@ exports.getOldPostsType = async (req, res) => {
     }
 }
 
+// Method to obtain information from a post
+exports.getInformationPost = async (req, res) => {
+    const { id_post } = req.params;
+
+    try {
+        const post = await Post.findById(id_post);
+
+        res.status(200).json(post);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
 // Method to get the posts of a user
 exports.getPostByIdUser = async (req, res) => {
     const { id_user } = req.params;
@@ -175,6 +196,8 @@ exports.getPostByIdUser = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
+
+
 
 // Method to search post by pet name
 exports.searchPosts = async (req, res) => {

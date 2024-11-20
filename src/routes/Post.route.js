@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createPostForLostPet, createPostForPetAdoption, getRecentPosts, getOldPosts, getRecentPostsType, getOldPostsType, getPostByIdUser, searchPosts, updateLostPetPostUpdateFound, deletePostOfAUser, updateInformationPost } = require('../controllers/Post.controller');
+const { createPostForLostPet, createPostForPetAdoption, getRecentPosts, getOldPosts, getRecentPostsType, getOldPostsType, getPostByIdUser, getInformationPost, searchPosts, updateLostPetPostUpdateFound, deletePostOfAUser, updateInformationPost } = require('../controllers/Post.controller');
 
 // Route to create a post for a lost pet
 router.post('/createPostLostPet', createPostForLostPet);
@@ -22,6 +22,9 @@ router.post('/getOldPostsType/:post_type', getOldPostsType);
 
 // Route to get the posts of a user
 router.post('/getPostsUser/:id_user', getPostByIdUser);
+
+// Route to get information from a post
+router.post('/getInformationPost/:id_post', getInformationPost);
 
 // Route to get the posts for a description
 router.post('/searchPost', searchPosts);
