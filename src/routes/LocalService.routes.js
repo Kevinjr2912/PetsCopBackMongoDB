@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerLocalService, getInformationLocalService, getNameAndPhotoLocalService,getInformationAllLocalsAndServices, updateInformationLocalOrService,deleteLocalOrService } = require('../controllers/LocalService.controller');
+const { registerLocalService, getInformationLocalService, getNameAndPhotoLocalService,getInformationAllLocalsAndServices, updateInformationLocalOrService,deleteLocalOrService, getLocalServicesByIdUser } = require('../controllers/LocalService.controller');
 
 // Route to create a local or service
 router.post('/registerLocalService', registerLocalService);
@@ -12,6 +12,9 @@ router.post('/getNameAndPhotolocalService/:id_user', getNameAndPhotoLocalService
 
 // Route to get all locals and services
 router.get('/getAllLocalsServices', getInformationAllLocalsAndServices);
+
+// Route to get a Local o service by id of a user
+router.get('/get_by_id_user/:id_user', getLocalServicesByIdUser);
 
 // Route to update information about a location o service
 router.put('/updateInformationLocalService/:id_local_service', updateInformationLocalOrService);

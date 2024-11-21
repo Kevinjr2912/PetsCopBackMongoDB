@@ -79,6 +79,22 @@ exports.getInformationAllLocalsAndServices = async (req, res) => {
     }
 }
 
+exports.getLocalServicesByIdUser = [async (req, res) => {
+    const id_user = req.params.id_user;
+
+    try{
+        const local_services = await LocalService.findOne({
+            id_user: id_user
+        })
+
+        if(!local_services)
+            return res.status(404).json({ message: "Local o servicio no encontrado" });
+
+        res.status(200).json(local_services);
+    }catch(err){
+        res.status(500).json({ message: 'Error al obtener info', err })
+    }
+}];
 
 exports.updateInformationLocalOrService = async (req, res) => {
     const { id_local_service } = req.params;
