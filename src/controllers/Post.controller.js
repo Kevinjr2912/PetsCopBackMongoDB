@@ -99,10 +99,12 @@ exports.getRecentPostsType = async (req, res) => {
         let projectFields = {
             _id: 1,
             id_user: 1,
-            'basic_pet_information.name': 1,
-            'basic_pet_information.type': 1,
-            'basic_pet_information.photos': 1,
-            'publication_date': 1
+            post_type: 1,
+            basic_pet_information: 1,
+            loss_data: 1,
+            reward: 1,
+            gratitude: 1,
+            publication_date: 1
         };
 
         if (post_type === 'Perdido') {
@@ -134,10 +136,12 @@ exports.getOldPostsType = async (req, res) => {
         let projectFields = {
             _id: 1,
             id_user: 1,
-            'basic_pet_information.name': 1,
-            'basic_pet_information.type': 1,
-            'basic_pet_information.photos': 1,
-            'publication_date': 1
+            post_type: 1,
+            basic_pet_information: 1,
+            loss_data: 1,
+            reward: 1,
+            gratitude: 1,
+            publication_date: 1
         };
 
         if (post_type === 'Perdido') {
