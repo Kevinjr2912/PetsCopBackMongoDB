@@ -90,7 +90,7 @@ exports.updateInformationLocalOrService = async (req, res) => {
             { new: true }
         );
 
-        res.status(200).json({ message: 'Deleted post', data_local_service})
+        res.status(200).json({ message: 'Updated post', data_local_service})
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }

@@ -81,19 +81,7 @@ const localServiceSchema = new mongoose.Schema({
             response: {
                 type: String,
                 required: true
-            },
-            replies: [
-                {
-                    id_user: {
-                        type: Number,
-                        required: true
-                    },
-                    response: {
-                        type: String,
-                        required: true
-                    }
-                }
-            ]
+            }
         }],
         required: false
     }
