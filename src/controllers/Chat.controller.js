@@ -69,4 +69,34 @@ exports.sendMessage = [async (req, res) => {
     }
 }];
 
-exports.getMessages = [async (req, res) => {}];
+exports.getMessages = [async (req, res) => {
+    const id_chat = req.params.id_chat;
+
+    try{
+        const chat = await Chat.findById(id_chat);
+        if(!chat)
+            return res.status(404).json({ message: "No se encontró el chat" });
+    }catch(err){
+        res.status(500).json({ message: "Error al conseguir mensajes", err });
+    }
+}];
+
+exports.editMessage = [async (req, res) => {
+    const id_chat = req.params.id_chat;
+    const { id_message, body } = req.body;
+
+    try{
+        const chat = await Chat.findById(id_chat);
+
+        for(let i = 0; i < chat.messages.length; i++){
+            if(chat.messages[i]._id === id_message){
+                chat.messages[i]
+            }
+        }
+    }catch(err){
+        res.status(500).json({ message: "Error al editar mensaje", err });
+    }
+}];
+
+exports.deleteMessage = [async (req, res) => {
+}];
