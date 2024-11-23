@@ -19,10 +19,6 @@ const chatSchema = new mongoose.Schema({
                 type: String,
                 required: false,
             },
-            id_img: {
-                type: String,
-                required: false
-            }
         }]
     }
 })

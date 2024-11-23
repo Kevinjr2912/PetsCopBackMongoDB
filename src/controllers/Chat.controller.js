@@ -83,14 +83,15 @@ exports.getMessages = [async (req, res) => {
 
 exports.editMessage = [async (req, res) => {
     const id_chat = req.params.id_chat;
-    const { id_message, body } = req.body;
+    const message = req.body;
 
     try{
         const chat = await Chat.findById(id_chat);
 
         for(let i = 0; i < chat.messages.length; i++){
-            if(chat.messages[i]._id === id_message){
-                chat.messages[i]
+            if(chat.messages[i]._id === message._id){
+                chat.messages[i] = message;
+                i = chat.messages.length + 10;
             }
         }
     }catch(err){
@@ -99,4 +100,24 @@ exports.editMessage = [async (req, res) => {
 }];
 
 exports.deleteMessage = [async (req, res) => {
+    const id_chat = req.params.id_chat;
+    const { id_message } = req.body;
+
+    try{
+        const chat = await Chat.findById(id_chat);
+
+        if(!chat)
+            return res.status(404).json({ message: "No se encontró el chat" });
+
+        for(let i = 0; i < chat.messages.length; i++){
+            if(chat.messages._id == id_message){
+                chat.messages.splice(i, 1);
+                i = chat.messages.length + 10;
+            }
+        }
+
+        res.status(200).json({ message: "Mensaje eliminado" });
+    }catch(err){
+        res.status(500).json({ message: "Error al eliminar mensaje", err });
+    }
 }];
