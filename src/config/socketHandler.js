@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Chat = require('../models/Chat.model');
 
 exports.socketHandler = (io) => {
@@ -23,7 +24,7 @@ exports.socketHandler = (io) => {
                 socket.join(id_chat);
                 console.log("Usuario ingresado al chat");
             }catch(err){
-                console.log("No se pudo unir al chat");
+                console.log("No se pudo unir al chat", err);
                 socket.emit("error", "No se pudo conectar al chat", err);
                 socket.disconnect();
             }
@@ -41,7 +42,7 @@ exports.socketHandler = (io) => {
                 console.log("Obteniendo chat");
                 io.to(id_chat).emit("get_messages", chat.messages);
             }catch(err){
-                console.log("Error al obtener mensajes");
+                console.log("Error al obtener mensajes", err);
                 socket.emit("error", "Error al obtener mensajes");
             }
             
@@ -49,7 +50,12 @@ exports.socketHandler = (io) => {
 
         socket.on("send_new_message", async (id_chat, message) => {
             try{
-                const chat = await Chat.findById(id_chat);
+                message._id = new mongoose.Types.ObjectId();
+
+                const chat = await Chat.findOneAndUpdate(
+                    { _id: id_chat }, 
+                    { $push: { messages: { id_user: message.id_user, body_message: message.body_message } } }
+                );
                 if (!chat){
                     console.log("No se encontró el chat");
                     socket.emit("error", "No se encontró el chat");
@@ -61,7 +67,7 @@ exports.socketHandler = (io) => {
                 io.to(id_chat).emit("new_message", message);
                 console.log("Nuevo mensaje enviado a la sala:", id_chat);
             }catch(err){
-                console.log("Error al enviar mensaje")
+                console.log("Error al enviar mensaje", err)
                 socket.emit("error", "Error al enviar mensaje:", err);
             }
         });
@@ -78,12 +84,10 @@ exports.socketHandler = (io) => {
                     socket.emit("error", "No se encontró el chat");
                 }
 
-                await updateChat.save();
-
                 io.to(id_chat).emit("edited_message", message);
                 console.log("Mensaje editado");
             }catch(err){
-                console.log("Error al editar mensaje");
+                console.log("Error al editar mensaje", err);
                 socket.emit("error", "Error al editar mensaje", err);
             }
         });
@@ -101,11 +105,10 @@ exports.socketHandler = (io) => {
                     return;
                 }
 
-                chat.save();
                 io.to(id_chat).emit("deleted_message", id_message);
                 console.log("Mensaje eliminado");
             }catch(err){
-                console.log("Error al eliminar mensaje");
+                console.log("Error al eliminar mensaje", err);
                 socket.emit("error", "Error al eliminar mensaje", err);
             }
         });

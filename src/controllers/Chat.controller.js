@@ -5,10 +5,8 @@ exports.initChat = [async (req, res) => {
     console.log("Iniciando chat");
 
     try{
-        const existing_chat = new Chat.findOne({
-            $or: {
-                id_user_1: id_user_1, id_user_2: id_user_2
-            }
+        const existing_chat = await Chat.findOne({
+            $or: [{id_user_1: id_user_1}, {id_user_2: id_user_2}]
         })
 
         if(existing_chat){
@@ -16,7 +14,9 @@ exports.initChat = [async (req, res) => {
             return res.status(409).json({ message: "Ya hay un chat existente" });
         }
 
-        const new_chat = new Chat({ id_user_1, id_user_2 });
+        console.log("No se ha encontrado chat existente");
+
+        const new_chat = await new Chat({ id_user_1: id_user_1, id_user_2: id_user_2 });
 
         await new_chat.save();
         res.status(201).json({
@@ -24,6 +24,7 @@ exports.initChat = [async (req, res) => {
             id_chat: new_chat._id
         })
     }catch(err){
+        console.log(err);
         res.status(500).json({ message : "El chat no se pudo inicializar"});
     }
 }];
