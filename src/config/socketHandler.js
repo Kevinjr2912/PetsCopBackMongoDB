@@ -61,7 +61,6 @@ exports.socketHandler = (io) => {
                     socket.emit("error", "No se encontró el chat");
                     return;
                 }
-                chat.messages.push(message);
 
                 await chat.save();
                 io.to(id_chat).emit("new_message", message);
@@ -74,6 +73,7 @@ exports.socketHandler = (io) => {
 
         socket.on("edit_messages", async (id_chat, message) => {
             try{
+                console.log("Mensaje editado:", message);
                 const updateChat = await Chat.updateOne(
                     { _id: id_chat, "messages._id": message._id },
                     { $set: { "messages.$": message } }
