@@ -113,6 +113,10 @@ const postSchema = new mongoose.Schema({
                 type: Number,
                 required: true
             },
+            creation_date: {
+                type: Date,
+                required: true
+            },
             response: {
                 type: String,
                 required: true

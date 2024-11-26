@@ -35,7 +35,7 @@ const localServiceSchema = new mongoose.Schema({
                 type: String,
                 required: true
             },
-            cologne: {
+            colony: {
                 type: String,
                 required: true
             },
@@ -80,6 +80,10 @@ const localServiceSchema = new mongoose.Schema({
             },
             response: {
                 type: String,
+                required: true
+            },
+            creation_date: {
+                type: Date,
                 required: true
             }
         }],

@@ -3,9 +3,7 @@ const Post = require('../models/Post.model');
 // Method for creating a post for a lost pet
 exports.createPostForLostPet = async (req, res) => {
     const { id_user, post_type, basic_pet_information, loss_data, reward, publication_date } = req.body;
-
-    console.log("Fotos ", basic_pet_information.photos)
-
+    
     try {
         let lost_pet_post = '';
 
