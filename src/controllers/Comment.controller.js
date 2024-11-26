@@ -1,7 +1,8 @@
 const Post = require('../models/Post.model');
+const authenticateJWT = require('../middlewares/authenticateJWT');
 
 // Method to create a comment to a post
-exports.createCommentToPost = async (req, res) => {
+exports.createCommentToPost = [authenticateJWT,async (req, res) => {
     const { id_post, id_user } = req.params;
     const { response, creation_date } = req.body;
 
@@ -15,10 +16,10 @@ exports.createCommentToPost = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error ' });
     }
-}
+}]
 
 // Method to update a user's comment to a post
-exports.updateUserCommentOnPost = async (req, res) => {
+exports.updateUserCommentOnPost = [authenticateJWT,async (req, res) => {
     const { id_post, id_comment } = req.params;
     const { new_response, new_creation_date } = req.body;
 
@@ -32,10 +33,10 @@ exports.updateUserCommentOnPost = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method to delete a comment and its replies
-exports.deleteCommentUserOnPost = async (req, res) => {
+exports.deleteCommentUserOnPost = [authenticateJWT,async (req, res) => {
     const { id_post, id_comment } = req.params;
 
     try {
@@ -49,7 +50,7 @@ exports.deleteCommentUserOnPost = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 
 

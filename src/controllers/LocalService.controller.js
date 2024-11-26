@@ -1,4 +1,5 @@
 const LocalService = require('../models/LocalService.model');
+const authenticateJWT = require('../middlewares/authenticateJWT');
 
 // Method for registering a premises or services
 exports.registerLocalService = async (req, res) => {
@@ -18,10 +19,10 @@ exports.registerLocalService = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error'});
     }
-}
+};
 
 // Method for obtaining information about a location or service
-exports.getInformationLocalService = async (req, res) => {
+exports.getInformationLocalService = [authenticateJWT,async (req, res) => {
     const { id_local_service: _id } = req.params;
 
     try {
@@ -30,9 +31,9 @@ exports.getInformationLocalService = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error'});
     }
-}
+}]
 
-exports.getNameAndPhotoLocalService = async (req, res) => {
+exports.getNameAndPhotoLocalService = [authenticateJWT,async (req, res) => {
     const { id_user } = req.params;
 
     try {
@@ -51,12 +52,11 @@ exports.getNameAndPhotoLocalService = async (req, res) => {
         console.log(err)
         res.status(500).json({ message: 'Server error'});
     }
-}
+}]
 
 
 // Method for obtaining information on each of the premises and services
-exports.getInformationAllLocalsAndServices = async (req, res) => {
-
+exports.getInformationAllLocalsAndServices = [authenticateJWT,async (req, res) => {
     try {
         const locals_services = await LocalService.aggregate([
             { $project : 
@@ -76,9 +76,9 @@ exports.getInformationAllLocalsAndServices = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error'});
     }
-}
+}]
 
-exports.getLocalServicesByIdUser = [async (req, res) => {
+exports.getLocalServicesByIdUser = [authenticateJWT,async (req, res) => {
     const id_user = req.params.id_user;
 
     try{
@@ -95,7 +95,7 @@ exports.getLocalServicesByIdUser = [async (req, res) => {
     }
 }];
 
-exports.updateInformationLocalOrService = async (req, res) => {
+exports.updateInformationLocalOrService = [authenticateJWT,async (req, res) => {
     const { id_local_service } = req.params;
     const data_local_service = req.body;
     try {
@@ -109,10 +109,10 @@ exports.updateInformationLocalOrService = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method to delete a local o service
-exports.deleteLocalOrService = async (req, res) => {
+exports.deleteLocalOrService = [authenticateJWT,async (req, res) => {
     const { id_local_service } = req.params;
 
     try {
@@ -122,4 +122,4 @@ exports.deleteLocalOrService = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]

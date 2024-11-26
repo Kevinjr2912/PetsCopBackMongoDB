@@ -1,4 +1,6 @@
-exports.getInformationAddress = async (req, res) => {
+const authenticateJWT = require('../middlewares/authenticateJWT');
+
+exports.getInformationAddress = [authenticateJWT, async (req, res) => {
     const { codigo_postal } = req.params;
     const key = 'd1b726ba03907ec0e841c47d17c413fac4af7966';
 
@@ -21,4 +23,4 @@ exports.getInformationAddress = async (req, res) => {
     } catch (err) {
         return res.json({ error: err });
     }
-}
+}]
