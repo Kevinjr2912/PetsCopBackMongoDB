@@ -3,10 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const stream = require('stream');
 const driveService = require('../../configDrive');
-const authenticateJWT = require('../middlewares/authenticateJWT');
 
 // Subir múltiples archivos a Google Drive
-exports.uploadToDrive = [authenticateJWT,async (req, res) => {
+exports.uploadToDrive = async (req, res) => {
     if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error: 'No se proporcionaron archivos' });
     }
@@ -37,10 +36,10 @@ exports.uploadToDrive = [authenticateJWT,async (req, res) => {
         console.log(error)
         res.status(500).json({ error: 'Error al subir los archivos' });
     }
-}];
+};
 
 // Ruta para descargar archivo desde Google Drive
-exports.downloadFromDrive = [authenticateJWT,async (req, res) => {
+exports.downloadFromDrive = async (req, res) => {
     const { fileId } = req.params;
 
     try {
@@ -64,4 +63,4 @@ exports.downloadFromDrive = [authenticateJWT,async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error al descargar el archivo' });
     }
-}];
+};
