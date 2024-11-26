@@ -1,9 +1,10 @@
 const Post = require('../models/Post.model');
+const authenticateJWT = require('../middlewares/authenticateJWT');
 
 // Method for creating a post for a lost pet
-exports.createPostForLostPet = async (req, res) => {
+exports.createPostForLostPet = [authenticateJWT,async (req, res) => {
     const { id_user, post_type, basic_pet_information, loss_data, reward, publication_date } = req.body;
-    
+
     try {
         let lost_pet_post = '';
 
@@ -20,10 +21,10 @@ exports.createPostForLostPet = async (req, res) => {
         console.log(err)
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method for creating post for pets for adoption
-exports.createPostForPetAdoption = async (req, res) => {
+exports.createPostForPetAdoption = [authenticateJWT,async (req, res) => {
     const { id_user, post_type, basic_pet_information, medical_data, publication_date } = req.body;
 
     try {
@@ -36,10 +37,10 @@ exports.createPostForPetAdoption = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method to get the most recent post types
-exports.getRecentPosts = async (req, res) => {
+exports.getRecentPosts = [authenticateJWT,async (req, res) => {
     try {
         let projectFields = {
             _id: 1,
@@ -61,10 +62,10 @@ exports.getRecentPosts = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method to get oldest post types
-exports.getOldPosts = async (req, res) => {
+exports.getOldPosts = [authenticateJWT,async (req, res) => {
     try {
         let projectFields = {
             _id: 1,
@@ -87,10 +88,10 @@ exports.getOldPosts = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method to get recent posts according to a post type
-exports.getRecentPostsType = async (req, res) => {
+exports.getRecentPostsType = [authenticateJWT,async (req, res) => {
     const { post_type } = req.params;
 
     try {
@@ -124,10 +125,10 @@ exports.getRecentPostsType = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-};
+}];
 
 // Method to get old posts according to a post type
-exports.getOldPostsType = async (req, res) => {
+exports.getOldPostsType = [authenticateJWT,async (req, res) => {
     const { post_type } = req.params;
 
     try {
@@ -161,10 +162,10 @@ exports.getOldPostsType = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method to obtain information from a post
-exports.getInformationPost = async (req, res) => {
+exports.getInformationPost = [authenticateJWT,async (req, res) => {
     const { id_post } = req.params;
 
     try {
@@ -174,11 +175,11 @@ exports.getInformationPost = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 
 // Method to get the posts of a user
-exports.getPostByIdUser = async (req, res) => {
+exports.getPostByIdUser = [authenticateJWT,async (req, res) => {
     const { id_user } = req.params;
 
     try {
@@ -192,12 +193,10 @@ exports.getPostByIdUser = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
-
-
+}]
 
 // Method to search post by pet name
-exports.searchPosts = async (req, res) => {
+exports.searchPosts = [authenticateJWT,async (req, res) => {
     const { search_post } = req.body;
 
     try {
@@ -208,10 +207,10 @@ exports.searchPosts = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
 // Method to update the status and body of a post from a lost to found pet
-exports.updateLostPetPostUpdateFound = async (req, res) => {
+exports.updateLostPetPostUpdateFound = [authenticateJWT,async (req, res) => {
     const { id_post: filter } = req.params;
     const { gratitude } = req.body;
 
@@ -234,10 +233,10 @@ exports.updateLostPetPostUpdateFound = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 
-}
+}]
 
 // Method to update the information of a post
-exports.updateInformationPost = async (req, res) => {
+exports.updateInformationPost = [authenticateJWT,async (req, res) => {
     const { id_post } = req.params;
     const update_object = req.body;
 
@@ -252,11 +251,10 @@ exports.updateInformationPost = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
-
-}
+}]
 
 // Method to delete a post
-exports.deletePostOfAUser = async (req, res) => {
+exports.deletePostOfAUser = [authenticateJWT,async (req, res) => {
     const { id_post: _id } = req.params;
 
     try {
@@ -266,5 +264,5 @@ exports.deletePostOfAUser = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+}]
 
