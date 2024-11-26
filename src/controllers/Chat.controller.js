@@ -1,6 +1,7 @@
 const Chat = require('../models/Chat.model');
+const authenticateJWT = require('../middlewares/authenticateJWT');
 
-exports.initChat = [async (req, res) => {
+exports.initChat = [authenticateJWT,async (req, res) => {
     const { id_user_1, id_user_2 } = req.body;
     console.log("Iniciando chat");
 
@@ -29,7 +30,7 @@ exports.initChat = [async (req, res) => {
     }
 }];
 
-exports.getChats = [async (req, res) => {
+exports.getChats = [authenticateJWT,async (req, res) => {
     let id_user = req.params.id_user;
 
     try{
@@ -51,7 +52,7 @@ exports.getChats = [async (req, res) => {
 }];
 
 // Métodos del chat en vivo (Propensos a ser quitados de aquí)
-exports.sendMessage = [async (req, res) => {
+exports.sendMessage = [authenticateJWT,async (req, res) => {
     const message = req.body;
     const id_chat = req.params.id;
 
@@ -71,7 +72,7 @@ exports.sendMessage = [async (req, res) => {
     }
 }];
 
-exports.getMessages = [async (req, res) => {
+exports.getMessages = [authenticateJWT,async (req, res) => {
     const id_chat = req.params.id_chat;
 
     try{
@@ -90,7 +91,7 @@ exports.getMessages = [async (req, res) => {
     }
 }];
 
-exports.editMessage = [async (req, res) => {
+exports.editMessage = [authenticateJWT,async (req, res) => {
     const id_chat = req.params.id_chat;
     const message = req.body;
 
@@ -113,7 +114,7 @@ exports.editMessage = [async (req, res) => {
     }
 }];
 
-exports.deleteMessage = [async (req, res) => {
+exports.deleteMessage = [authenticateJWT,async (req, res) => {
     const id_chat = req.params.id_chat;
     const { id_message } = req.body;
 
