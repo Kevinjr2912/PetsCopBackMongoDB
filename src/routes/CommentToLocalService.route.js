@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createCommentToLocalOrService, createReplyToUserComment, updateUserCommentOnLocalOrService, updateReplyUserComment, deleteCommentUserOnLocalOrService, deleteReplyComment } = require('../controllers/CommentToLocalService.controller');
+const { createCommentToLocalOrService, updateUserCommentOnLocalOrService, deleteCommentUserOnLocalOrService } = require('../controllers/CommentToLocalService.controller');
 
 router.put('/createCommentToLocalService/:id_local_service/:id_user',createCommentToLocalOrService);
 
