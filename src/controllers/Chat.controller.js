@@ -6,7 +6,7 @@ exports.initChat = [async (req, res) => {
 
     try{
         const existing_chat = await Chat.findOne({
-            $or: [{id_user_1: id_user_1}, {id_user_2: id_user_2}]
+            $and : [{id_user_1: id_user_1}, {id_user_2: id_user_2}]
         })
 
         if(existing_chat){
